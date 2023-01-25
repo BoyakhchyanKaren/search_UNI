@@ -3,7 +3,7 @@ import { Avatar, Box, Card, Grid, InputAdornment, OutlinedInput, Popper, styled 
 import { useTheme } from '@mui/material/styles';
 import { shouldForwardProp } from '@mui/system';
 import { IconSearch } from '@tabler/icons';
-import Transitions from '../../Transitions';
+import Transitions from '../Transitions/Transitions';
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
 import { margins, paddings } from '../../themes/themeConstants';
 
