@@ -6,6 +6,7 @@ import { IconSearch } from '@tabler/icons';
 import Transitions from '../Transitions/Transitions';
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
 import { margins, paddings } from '../../themes/themeConstants';
+import { useArticlesContext } from '../../context';
 
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
     zIndex: 1100,
@@ -73,6 +74,12 @@ const MobileSearch = ({ value, setValue }) => {
 const SearchSection = () => {
     const theme = useTheme();
     const [value, setValue] = useState('');
+    const { articles, setCurrentArticle } = useArticlesContext();
+
+    const handleKeyDown = () => {
+        const currentArticle = articles.find((element) => element.title === value);
+        setCurrentArticle(currentArticle);
+    }
 
     return (
         <>
@@ -117,6 +124,7 @@ const SearchSection = () => {
                     id="input-search-header"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder="Search"
                     startAdornment={
                         <InputAdornment position="start">

@@ -1,28 +1,26 @@
-import * as React from 'react';
-import { Grid, useTheme } from '@mui/material';
-import SearchSection from './components/SearchSection/Search';
-import Header from './components/Header/Header';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Main from './components/Main';
+import { Create } from './components/Create';
+import { useArticlesContext } from './context';
 
 const App = () => {
-  const theme = useTheme();
+  const { setArticles } = useArticlesContext();
+
+  useEffect(() => {
+    fetch('http://localhost:5000/articles').then((res) => res.json()).then((articles) => {
+      setArticles(articles);
+    });
+  });
   return (
-    <Grid sx={{
-      width: '100vw',
-      height: '100vh',
-      backgroundColor: theme.palette.primary.light
-    }}>
-      <Grid
-        item
-        container
-        direction="column"
-        justify-content="center"
-        alignItems="center"
-        gap={4}
-      >
-        <Header />
-        <SearchSection />
-      </Grid>
-    </Grid>
+    <main>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Main />} />
+          <Route path='/create' element={<Create />} />
+        </Routes>
+      </Router>
+    </main>
   );
 };
 
