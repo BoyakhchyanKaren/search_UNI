@@ -57,4 +57,20 @@ export class ArticleController implements Articles_controller_interface {
 
     };
 
+    static async editArticle(req: Request, res: Response, next: NextFunction) {
+
+        try {
+            const { id }: ParamsDictionary = req.params;
+            const data= req.body;
+            const deletedArticle = await ArticlesRepository.editArticle(id, data);
+            if (!deletedArticle) {
+                return next(HttpError.notFound(ExceptionMessages.NOT_FOUND.Article));
+            }
+            res.status(StatusCode.SuccessRequest).json(deletedArticle);
+        } catch (e) {
+            console.log(e);
+        }
+
+    };
+
 };

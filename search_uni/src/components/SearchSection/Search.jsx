@@ -77,7 +77,7 @@ const SearchSection = () => {
     const { articles, setCurrentArticle } = useArticlesContext();
 
     const handleKeyDown = () => {
-        const currentArticle = articles.find((element) => element.title === value);
+        const currentArticle = articles.find((element) => element.title.toLowerCase() === value.toLowerCase());
         setCurrentArticle(currentArticle);
     }
 

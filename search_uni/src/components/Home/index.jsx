@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { Grid, useTheme } from '@mui/material';
-import SearchSection from './SearchSection/Search';
-import Header from './Header/Header';
-import MainCard from './MainCard';
+import { Grid, useTheme } from "@mui/material";
+import { useArticlesContext } from "../../context";
+import Header from "../Header/Header";
+import RenderArticles from "./Articles";
 
-const Main = () => {
+const Home = () => {
+    const { articles } = useArticlesContext();
     const theme = useTheme();
 
     return (
         <Grid sx={{
-            width: '100vw',
-            height: '100vh',
+            width: '100%',
+            height: articles.length === 0 || articles.length === 1 ? '100vh' : '100%',
             backgroundColor: theme.palette.primary.light
         }}>
             <Grid
@@ -22,11 +22,10 @@ const Main = () => {
                 gap={4}
             >
                 <Header />
-                <SearchSection />
-                <MainCard />
+                <RenderArticles />
             </Grid>
         </Grid>
     )
-};
+}
 
-export default Main;
+export default Home;

@@ -1,22 +1,28 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Main from './components/Main';
+import SearchMain from './components/SearchMain';
 import { Create } from './components/Create';
 import { useArticlesContext } from './context';
+import Home from './components/Home';
+import axios from 'axios';
 
 const App = () => {
   const { setArticles } = useArticlesContext();
 
   useEffect(() => {
-    fetch('http://localhost:5000/articles').then((res) => res.json()).then((articles) => {
-      setArticles(articles);
-    });
-  });
+    async function fetchData() {
+      const response = await axios.get('http://localhost:4000/articles');
+      setArticles(response.data);
+    }
+    fetchData();
+  }, [setArticles]);
+
   return (
     <main>
       <Router>
         <Routes>
-          <Route path='/' element={<Main />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/search' element={<SearchMain />} />
           <Route path='/create' element={<Create />} />
         </Routes>
       </Router>

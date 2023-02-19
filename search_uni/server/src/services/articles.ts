@@ -33,6 +33,17 @@ export class ArticlesRepository implements Articles_service_interface {
         }
     };
 
+    static async editArticle(id: string, data: any) {
+        try {
+            await axios.put(`http://localhost:4000/articles/${id}`, data);
+            return {
+                updated: true,
+            }
+        } catch (e) {
+            return null;
+        }
+    };
+
 
     getAllArticles: () => object | object[];
     createArticle: (newArticle: ArticleType) => object;

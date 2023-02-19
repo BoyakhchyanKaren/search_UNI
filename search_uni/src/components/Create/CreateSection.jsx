@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Autocomplete, Button, Grid, TextareaAutosize, TextField, Typography, useTheme } from "@mui/material";
+import { Autocomplete, Button, Grid, TextareaAutosize, TextField, Typography, useTheme, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useArticlesContext } from "../../context";
 import { v4 } from 'uuid';
 import axios from 'axios';
@@ -17,20 +17,27 @@ export const CreateSection = () => {
     }
     const [autocompleteValue, setAutocompleteValue] = useState('');
     const [textAreaValue, setTextAreaValue] = useState('');
+    const [alignment, setAlignment] = useState('Engineering');
+
+    const handleChange = (_event, newAlignment) => {
+        setAlignment(newAlignment);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!autocompleteValue.length || !textAreaValue.length) {
+        if (!autocompleteValue.length || !textAreaValue.length || !alignment.length) {
             return;
         }
         const createdData = {
             title: autocompleteValue,
             description: textAreaValue,
+            alignment,
             id: v4(),
         }
         await axios.post('http://localhost:5000/articles', createdData);
         setAutocompleteValue('');
         setTextAreaValue('');
+        setAlignment("Engineering");
     }
 
     return (
@@ -42,14 +49,52 @@ export const CreateSection = () => {
                 justifyContent="center"
                 sx={{ backgroundColor: theme.palette.primary.dark }}
                 width="500px"
-                height="500px"
+                height="600px"
                 direction="column"
                 gap={5}
-                marginTop={6}
+                marginTop={3}
                 borderRadius="20px"
             >
                 <Grid alignItems="center" justifyContent="center">
                     <Typography pb={5} sx={{ color: 'gray', fontSize: '35px' }}>Create new Article</Typography>
+                </Grid>
+                <Grid item alignItems="center" justifyContent="center">
+                    <ToggleButtonGroup
+                        color="primary"
+                        value={alignment}
+                        exclusive
+                        onChange={handleChange}
+                        sx={{
+                            padding: '10px',
+                            borderRadius: '10px',
+                            display: 'flex',
+                            gap: '25px',
+                            justifyContent: 'space-between',
+                            "& .MuiToggleButtonGroup-grouped": {
+                                color: 'white'
+                            },
+                            "& .Mui-selected": {
+                                backgroundColor: `${theme.palette.primary.light} !important`,
+                                color: 'black !important'
+                            }
+                        }}
+                    >
+                        {['Engineering', 'IT', 'Health', 'Other'].map((spec) => {
+                            return (
+                                <ToggleButton
+                                    sx={{
+                                        fontWeight: 500,
+                                        color: 'white',
+                                        border: '1px solid white !important',
+                                        borderRadius: '12px !important',
+                                    }}
+                                    value={spec}
+                                >
+                                    {spec}
+                                </ToggleButton>
+                            )
+                        })}
+                    </ToggleButtonGroup>
                 </Grid>
                 <Grid width="400px">
                     <Autocomplete

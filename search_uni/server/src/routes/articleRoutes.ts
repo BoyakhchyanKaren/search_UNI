@@ -11,4 +11,5 @@ articleRouter
         .post("/", ArticleController.createArticle);
 
 articleRouter
-        .delete("/:id", ArticleController.deleteArticle);
+        .delete("/:id", ArticleController.deleteArticle)
+        .put("/:id", ArticleController.editArticle);

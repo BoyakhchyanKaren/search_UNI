@@ -1,6 +1,7 @@
 export type ArticleType = {
     id: any,
     title: any,
+    alignment: any,
     description: any,
 }
 
