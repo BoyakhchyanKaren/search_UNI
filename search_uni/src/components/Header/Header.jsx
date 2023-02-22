@@ -80,7 +80,7 @@ export default function Header() {
                     color="white"
                     width={'200px'}
                 >
-                    Search Page
+                    Online Dictionary
                 </Typography>
             </Toolbar>
         </AppBar >

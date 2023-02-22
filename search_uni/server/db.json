@@ -1,3 +1,10 @@
 {
-  "articles": []
+  "articles": [
+    {
+      "title": "other",
+      "description": "MedicalMedicalMedicalMedicalMedicalMedical",
+      "alignment": "Other",
+      "id": "92e82a23-af1d-4673-89ee-28a62636ec28"
+    }
+  ]
 }
