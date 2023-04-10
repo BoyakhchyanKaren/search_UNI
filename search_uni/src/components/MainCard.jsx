@@ -87,10 +87,10 @@ export default function MediaCard() {
                     </Typography>
                 </CardContent>
                 <Grid item container justifyContent="flex-end" paddingRight={3} gap={4} paddingBottom={2}>
-                    <Button
+                    {/* <Button
                         variant='contained'
                         onClick={() => onDeleteClick(currentArticle.id)}
-                    >Delete</Button>
+                    >Delete</Button> */}
                     <Button
                         variant='contained'
                         onClick={() => handleOpen()}

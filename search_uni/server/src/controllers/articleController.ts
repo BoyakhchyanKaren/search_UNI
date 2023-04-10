@@ -27,11 +27,41 @@ export class ArticleController implements Articles_controller_interface {
 
     };
 
+    static async getDescriptions(req: Request, res: Response, next: NextFunction) {
+
+        try {
+            const descriptions = await ArticlesRepository.getDescriptions();
+            if (!descriptions) {
+                return next(HttpError.notFound(ExceptionMessages.NOT_FOUND.Article))
+            };
+            res.json(descriptions.data)
+        } catch (e) {
+            console.log(e)
+            next(HttpError.internalServerError(ExceptionMessages.INTERNAL))
+        }
+
+    };
+
     static async createArticle(req: Request, res: Response, next: NextFunction) {
 
         try {
             const data = req.body;
             const newArticle = await ArticlesRepository.createArticle(data);
+            if (!newArticle) {
+                return next(HttpError.badRequest(ExceptionMessages.DB_ERROR))
+            }
+            res.status(StatusCode.CreateRequest).json(newArticle);
+        } catch (e) {
+            next(HttpError.internalServerError(ExceptionMessages.INTERNAL));
+        }
+
+    };
+
+    static async addDescriptions(req: Request, res: Response, next: NextFunction) {
+
+        try {
+            const data = req.body;
+            const newArticle = await ArticlesRepository.addDescriptions(data);
             if (!newArticle) {
                 return next(HttpError.badRequest(ExceptionMessages.DB_ERROR))
             }
@@ -61,7 +91,7 @@ export class ArticleController implements Articles_controller_interface {
 
         try {
             const { id }: ParamsDictionary = req.params;
-            const data= req.body;
+            const data = req.body;
             const deletedArticle = await ArticlesRepository.editArticle(id, data);
             if (!deletedArticle) {
                 return next(HttpError.notFound(ExceptionMessages.NOT_FOUND.Article));

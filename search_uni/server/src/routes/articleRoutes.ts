@@ -8,7 +8,9 @@ export const articleRouter = Router();
 
 articleRouter
         .get("/", ArticleController.getAllArticles)
-        .post("/", ArticleController.createArticle);
+        .get("/descriptions", ArticleController.getDescriptions)
+        .post("/", ArticleController.createArticle)
+        .post("/descriptions", ArticleController.addDescriptions);
 
 articleRouter
         .delete("/:id", ArticleController.deleteArticle)

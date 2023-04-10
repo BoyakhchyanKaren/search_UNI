@@ -11,6 +11,26 @@ export class ArticlesRepository implements Articles_service_interface {
         }
     };
 
+    static async getDescriptions() {
+        try {
+            const descriptions = await axios.get('http://localhost:4000/descriptions');
+            return descriptions;
+        } catch (e) {
+            return null;
+        }
+    };
+
+    static async addDescriptions(aaa: string[]) {
+        try {
+            await axios.post('http://localhost:4000/descriptions', [aaa]);
+            return {
+                added: true,
+            }
+        } catch (e) {
+            return null;
+        }
+    };
+
     static async createArticle(newArticle: ArticleType) {
         try {
             await axios.post('http://localhost:4000/articles', newArticle);

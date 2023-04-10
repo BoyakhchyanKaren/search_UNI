@@ -45,6 +45,8 @@ const RenderArticles = () => {
     const [autocompleteValue, setAutocompleteValue] = useState('');
     const [textAreaValue, setTextAreaValue] = useState('');
     const [alignment, setAlignment] = useState('Engineering');
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [currentArticleId, setCurrentArticleId] = useState('');
 
     const onDeleteClick = async (articleId) => {
         setLoading(true);
@@ -61,8 +63,14 @@ const RenderArticles = () => {
             })
         });
         if (response.statusText === 'OK') {
-            setLoading(false)
+            setLoading(false);
+            setOpenDeleteModal(false);
         }
+    }
+
+    const onOpenDeleteModal = (idOfArticel) => {
+        setOpenDeleteModal(true);
+        setCurrentArticleId(idOfArticel);
     }
 
     const handleSubmit = async (e) => {
@@ -136,7 +144,7 @@ const RenderArticles = () => {
                                                 <Grid item container justifyContent="flex-end" paddingRight={1} gap={4} paddingBottom={2}>
                                                     <Button
                                                         variant='contained'
-                                                        onClick={() => onDeleteClick(article.id)}
+                                                        onClick={() => onOpenDeleteModal(article.id)}
                                                     >Delete</Button>
                                                     <Button
                                                         variant='contained'
@@ -149,6 +157,35 @@ const RenderArticles = () => {
                                 })}
                             </Grid>
                         </Grid>
+                        <Modal
+                            open={openDeleteModal}
+                            onClose={() => setOpenDeleteModal(false)}
+                        >
+                            <Grid
+                                item
+                                container
+                                style={style}
+                                alignItems="center"
+                                justifyContent="center"
+                                sx={{ backgroundColor: theme.palette.primary.dark }}
+                                width="600px"
+                                height="200px"
+                                direction="column"
+                                gap={5}
+                                marginTop={3}
+                                borderRadius="20px"
+                            >
+                                <Grid sx={{ color: 'white' }}>
+                                    <Typography sx={{ fontSize: '18px' }}>
+                                        Are you sure you want to delete this article?
+                                    </Typography>
+                                </Grid>
+                                <Grid item container gap={2} alignItems={'center'} justifyContent={"center"}>
+                                    <Button variant='contained' onClick={() => onDeleteClick(currentArticleId)}>Yes</Button>
+                                    <Button variant='contained' onClick={() => setOpenDeleteModal(false)}>No</Button>
+                                </Grid>
+                            </Grid>
+                        </Modal>
                         <Modal
                             open={open}
                             onClose={handleClose}
