@@ -54,7 +54,6 @@ const RenderArticles = () => {
             window.location.reload();
         }
         const response = await axios.delete(`http://localhost:4000/articles/${articleId}`);
-        console.log(response)
         fetch('http://localhost:4000/articles').then((res) => res.json()).then((articles) => {
             setArticles(articles);
         }).catch(() => {
