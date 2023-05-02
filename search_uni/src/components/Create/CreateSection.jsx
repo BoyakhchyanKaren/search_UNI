@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Autocomplete, Button, Grid, TextareaAutosize, TextField, Typography, useTheme, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Autocomplete, Button, Grid, Box, TextareaAutosize, Badge, TextField, Typography, useTheme, ToggleButton, ToggleButtonGroup, IconButton } from "@mui/material";
 import { useArticlesContext } from "../../context";
 import { v4 } from 'uuid';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const style = {
     position: 'absolute',
@@ -22,6 +23,21 @@ export const CreateSection = () => {
     const [openFieldModal, setOpenFieldModal] = useState(false);
     const { articles } = useArticlesContext();
     const [fieldCreated, setFieldCreated] = useState(false);
+    const getDeletableDescriptions = existingDescriptions?.map((element) => {
+        if (element.name === 'add field') {
+            return element;
+        }
+        const currentFind = articles?.find((shouldBeArticleFindable) => shouldBeArticleFindable.alignment === element.name);
+        if (currentFind) {
+            return element;
+        } else {
+            return {
+                ...element,
+                isDeletable: true,
+            }
+        }
+    })
+
     const getOptionsValues = () => {
 
         const onlyTitles = articles.map(({ title }) => (title));
@@ -77,6 +93,14 @@ export const CreateSection = () => {
         }
     }
 
+    const onDescriptionRemove = async (descriptionID) => {
+        await axios.delete(`http://localhost:4000/descriptions/${descriptionID}`);
+        const a = await axios.get('http://localhost:5000/articles/descriptions');
+        setExistingDescriptions(a.data);
+        setFieldCreated(false);
+        setOpenFieldModal(false);
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <Grid
@@ -106,6 +130,7 @@ export const CreateSection = () => {
                         exclusive
                         onChange={handleChange}
                         sx={{
+                            padding: '20px 0',
                             borderRadius: '10px',
                             display: 'flex',
                             gap: '25px',
@@ -118,7 +143,45 @@ export const CreateSection = () => {
                             }
                         }}
                     >
-                        {existingDescriptions?.map(e => e.name)?.map((spec) => {
+                        {getDeletableDescriptions?.map((spec) => {
+                            if (spec.isDeletable) {
+                                return (
+                                    <ToggleButton
+                                        sx={{
+                                            fontWeight: 500,
+                                            color: 'white',
+                                            border: '1px solid white !important',
+                                            borderRadius: '12px !important',
+                                            padding: '8px 40px',
+                                        }}
+                                        value={spec.name}
+                                    >
+                                        <Badge badgeContent={
+                                            <IconButton onClick={() => onDescriptionRemove(spec.id)} sx={{
+                                                width: '20px', marginBottom: '30px',
+                                                height: '20px',
+                                                marginLeft: '70px',
+                                                backgroundColor: 'gray',
+                                                borderRadius: '10px',
+                                                "&:hover": {
+                                                    backgroundColor: 'wheat'
+                                                }
+                                            }}>
+                                                <ClearIcon sx={{
+                                                    width: '17px',
+                                                    "&:hover": {
+                                                        cursor: 'pointer',
+                                                    }
+                                                }} />
+
+                                            </IconButton>
+
+                                        }>
+                                            {spec.name}
+                                        </Badge>
+                                    </ToggleButton>
+                                )
+                            }
                             return (
                                 <ToggleButton
                                     sx={{
@@ -126,11 +189,11 @@ export const CreateSection = () => {
                                         color: 'white',
                                         border: '1px solid white !important',
                                         borderRadius: '12px !important',
-                                        padding: '4px !important'
+                                        padding: '8px 40px',
                                     }}
-                                    value={spec}
+                                    value={spec.name}
                                 >
-                                    {spec}
+                                    {spec.name}
                                 </ToggleButton>
                             )
                         })}

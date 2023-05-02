@@ -31,10 +31,6 @@ export default function MediaCard() {
     const [autocompleteValue, setAutocompleteValue] = useState('');
     const [textAreaValue, setTextAreaValue] = useState('');
     const [alignment, setAlignment] = useState('Engineering');
-    const onDeleteClick = async (articleId) => {
-        await axios.delete(`http://localhost:4000/articles/${articleId}`);
-        window.location.reload();
-    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!autocompleteValue.length || !textAreaValue.length || !alignment.length) {
