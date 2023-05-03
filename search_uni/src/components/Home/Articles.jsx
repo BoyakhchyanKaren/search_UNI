@@ -3,13 +3,12 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { useArticlesContext } from '../../context';
-import { Grid } from '@mui/material';
 import _ from 'lodash';
 import axios from 'axios';
-import { Autocomplete, CircularProgress, Box, Modal, TextareaAutosize, TextField, useTheme, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Autocomplete, Button, Grid, Box, CircularProgress, Modal, TextareaAutosize, Badge, TextField, Typography, useTheme, ToggleButton, ToggleButtonGroup, IconButton } from "@mui/material";
+
+import ClearIcon from '@mui/icons-material/Clear';
 
 const style = {
     position: 'absolute',
@@ -40,13 +39,39 @@ const RenderArticles = () => {
     const theme = useTheme();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = React.useState(false);
+    const [existingDescriptions, setExistingDescriptions] = React.useState(null);
+    const [openFieldModal, setOpenFieldModal] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [fieldCreated, setFieldCreated] = React.useState(false);
     const [autocompleteValue, setAutocompleteValue] = useState('');
     const [textAreaValue, setTextAreaValue] = useState('');
     const [alignment, setAlignment] = useState('Engineering');
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [currentArticleId, setCurrentArticleId] = useState('');
+
+    const getDeletableDescriptions = existingDescriptions?.map((element) => {
+        if (element.name === 'add field') {
+            return element;
+        }
+        const currentFind = articles?.find((shouldBeArticleFindable) => shouldBeArticleFindable.alignment === element.name);
+        if (currentFind) {
+            return element;
+        } else {
+            return {
+                ...element,
+                isDeletable: true,
+            }
+        }
+    })
+
+    const onDescriptionRemove = async (descriptionID) => {
+        await axios.delete(`http://localhost:4000/descriptions/${descriptionID}`);
+        const a = await axios.get('http://localhost:5000/articles/descriptions');
+        setExistingDescriptions(a.data);
+        setFieldCreated(false);
+        setOpenFieldModal(false);
+    }
 
     const onDeleteClick = async (articleId) => {
         setLoading(true);
@@ -65,7 +90,18 @@ const RenderArticles = () => {
             setLoading(false);
             setOpenDeleteModal(false);
         }
+        window.location.reload();
     }
+    const getDescriptions = async () => {
+        const a = await axios.get('http://localhost:5000/articles/descriptions');
+        setExistingDescriptions(a.data);
+        setFieldCreated(false);
+        setOpenFieldModal(false);
+    }
+
+    useEffect(() => {
+        getDescriptions().catch(err => console.log(err));
+    }, [fieldCreated]);
 
     const onOpenDeleteModal = (idOfArticel) => {
         setOpenDeleteModal(true);
@@ -86,6 +122,7 @@ const RenderArticles = () => {
         await axios.put(`http://localhost:5000/articles/${currentArticle.id}`, editData);
         setCurrentArticle(editData);
         handleClose();
+        window.location.reload();
     }
     const handleChange = (_event, newAlignment) => {
         setAlignment(newAlignment);
@@ -208,18 +245,21 @@ const RenderArticles = () => {
                                     <Grid alignItems="center" justifyContent="center">
                                         <Typography pb={5} sx={{ color: 'gray', fontSize: '35px' }}>Edit Article</Typography>
                                     </Grid>
-                                    <Grid item alignItems="center" justifyContent="center">
+                                    <Grid item alignItems="center" justifyContent="center" sx={{
+                                        overflowX: 'scroll',
+                                        overflowY: 'hidden',
+                                        width: '400px'
+                                    }}>
                                         <ToggleButtonGroup
                                             color="primary"
                                             value={alignment}
                                             exclusive
                                             onChange={handleChange}
                                             sx={{
-                                                padding: '10px',
+                                                padding: '20px 0',
                                                 borderRadius: '10px',
                                                 display: 'flex',
                                                 gap: '25px',
-                                                justifyContent: 'space-between',
                                                 "& .MuiToggleButtonGroup-grouped": {
                                                     color: 'white'
                                                 },
@@ -229,7 +269,45 @@ const RenderArticles = () => {
                                                 }
                                             }}
                                         >
-                                            {['Engineering', 'IT', 'Health', 'Other'].map((spec) => {
+                                            {getDeletableDescriptions?.map((spec) => {
+                                                if (spec.isDeletable) {
+                                                    return (
+                                                        <ToggleButton
+                                                            sx={{
+                                                                fontWeight: 500,
+                                                                color: 'white',
+                                                                border: '1px solid white !important',
+                                                                borderRadius: '12px !important',
+                                                                padding: '8px 40px',
+                                                            }}
+                                                            value={spec.name}
+                                                        >
+                                                            <Badge badgeContent={
+                                                                <IconButton onClick={() => onDescriptionRemove(spec.id)} sx={{
+                                                                    width: '20px', marginBottom: '30px',
+                                                                    height: '20px',
+                                                                    marginLeft: '70px',
+                                                                    backgroundColor: 'gray',
+                                                                    borderRadius: '10px',
+                                                                    "&:hover": {
+                                                                        backgroundColor: 'wheat'
+                                                                    }
+                                                                }}>
+                                                                    <ClearIcon sx={{
+                                                                        width: '17px',
+                                                                        "&:hover": {
+                                                                            cursor: 'pointer',
+                                                                        }
+                                                                    }} />
+
+                                                                </IconButton>
+
+                                                            }>
+                                                                {spec.name}
+                                                            </Badge>
+                                                        </ToggleButton>
+                                                    )
+                                                }
                                                 return (
                                                     <ToggleButton
                                                         sx={{
@@ -237,10 +315,11 @@ const RenderArticles = () => {
                                                             color: 'white',
                                                             border: '1px solid white !important',
                                                             borderRadius: '12px !important',
+                                                            padding: '8px 40px',
                                                         }}
-                                                        value={spec}
+                                                        value={spec.name}
                                                     >
-                                                        {spec}
+                                                        {spec.name}
                                                     </ToggleButton>
                                                 )
                                             })}

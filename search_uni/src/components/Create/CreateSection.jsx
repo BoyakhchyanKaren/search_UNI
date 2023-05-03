@@ -21,7 +21,7 @@ export const CreateSection = () => {
     const [existingDescriptions, setExistingDescriptions] = useState(null);
     const theme = useTheme();
     const [openFieldModal, setOpenFieldModal] = useState(false);
-    const { articles } = useArticlesContext();
+    const { articles, setArticles } = useArticlesContext();
     const [fieldCreated, setFieldCreated] = useState(false);
     const getDeletableDescriptions = existingDescriptions?.map((element) => {
         if (element.name === 'add field') {
@@ -70,9 +70,12 @@ export const CreateSection = () => {
             id: v4(),
         }
         await axios.post('http://localhost:5000/articles', createdData);
+        const a = await axios.get('http://localhost:5000/articles');
+        setArticles(a.data);
         setAutocompleteValue('');
         setTextAreaValue('');
         setAlignment("Engineering");
+        window.location.replace('/');
     }
 
     const getDescriptions = async () => {
