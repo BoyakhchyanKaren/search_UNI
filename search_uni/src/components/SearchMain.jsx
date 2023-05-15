@@ -10,7 +10,7 @@ const SearchMain = () => {
     return (
         <Grid sx={{
             width: '100vw',
-            height: '100vh',
+            minHeight: '100vh',
             backgroundColor: theme.palette.primary.light
         }}>
             <Grid

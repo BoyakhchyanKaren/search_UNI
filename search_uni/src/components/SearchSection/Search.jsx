@@ -74,11 +74,13 @@ const MobileSearch = ({ value, setValue }) => {
 const SearchSection = () => {
     const theme = useTheme();
     const [value, setValue] = useState('');
-    const { articles, setCurrentArticle } = useArticlesContext();
+    const { articles, setCurrentArticle, setShowArticles } = useArticlesContext();
 
     const handleKeyDown = () => {
         const currentArticle = articles.find((element) => element.title.toLowerCase() === value.toLowerCase());
+        const manyArticles = articles.filter((element) => element.title.toLowerCase() === value.toLowerCase());
         setCurrentArticle(currentArticle);
+        setShowArticles(manyArticles);
     }
 
     return (
