@@ -11,6 +11,30 @@
       "description": "A computer is a machine that can be programmed to carry out sequences of arithmetic or logical operations (computation) automatically. Modern digital electronic computers can perform generic sets of operations known as programs. These programs enable computers to perform a wide range of tasks. A computer system is a nominally complete computer that includes the hardware, operating system (main software), and peripheral equipment needed and used for full operation. This term may also refer to a group of computers that are linked and function together, such as a computer network or computer cluster.\n\nA broad range of industrial and consumer products use computers as control systems. Simple special-purpose devices like microwave ovens and remote controls are included, as are factory devices like industrial robots and computer-aided design, as well as general-purpose devices like personal computers and mobile devices like smartphones. Computers power the Internet, which links billions of other computers and users.",
       "alignment": "Computer",
       "id": "5b6282ed-6d5f-4a9c-a1d7-844dd97015a4"
+    },
+    {
+      "title": "Laptop",
+      "description": "A laptop computer or notebook computer, also known as a laptop or notebook for short, is a small, portable personal computer (PC). Laptops typically have a clamshell form factor with a flat panel screen (usually 11–17 in or 280–430 mm in diagonal size) on the inside of the upper lid and an alphanumeric keyboard and pointing device (such as a trackpad and/or trackpoint) on the inside of the lower lid, although 2-in-1 PCs with a detachable keyboard are often marketed as laptops or as having a \"laptop mode\".[1][2] Most of the computer's internal hardware is fitted inside the lower lid enclosure under the keyboard, although many laptops have a built-in webcam at the top of the screen and some modern ones even feature a touch-screen display. In most cases, unlike tablet computers which run on mobile operating systems, laptops tend to run on desktop operating systems which have been traditionally associated with desktop computers.",
+      "alignment": "Laptop",
+      "id": "78b81f97-ef36-4c29-8319-b0e6fa71a226"
+    },
+    {
+      "title": "Laptop",
+      "description": "The names \"laptop\" and \"notebook\" refer to the fact that the computer can be practically placed on (or on top of) the user's lap and can be used similarly to a notebook. As of 2022, in American English, the terms \"laptop\" and \"notebook\" are used interchangeably;[4] in other dialects of English, one or the other may be preferred. Although the term \"notebook\" originally referred to a specific size of laptop (originally smaller and lighter than mainstream laptops of the time),[5] the term has come to mean the same thing and no longer refers to any specific size.",
+      "alignment": "Laptop",
+      "id": "c4589ae2-ed89-4589-a745-1999a051d360"
+    },
+    {
+      "title": "Sim Card",
+      "description": "A SIM card (full form: Subscriber Identity Module or Subscriber Identification Module) is an integrated circuit (IC) intended to securely store the international mobile subscriber identity (IMSI) number and its related key, which are used to identify and authenticate subscribers on mobile telephony devices (such as mobile phones and laptops). Technically the actual physical card is known as a universal integrated circuit card (UICC); this smart card is usually made of PVC with embedded contacts and semiconductors, with the SIM as its primary component. In practice the term \"SIM card\" refers to the entire unit and not simply the IC.\n\n",
+      "alignment": "Sim",
+      "id": "2540f6d0-9870-4072-ae1a-db4ad74a4710"
+    },
+    {
+      "title": "Sim Card",
+      "description": "Design elements, form factors, and construction can also vary significantly between models depending on the intended use. Examples of specialized models of laptops include rugged notebooks for use in construction or military applications, as well as low-production-cost laptops such as those from the One Laptop per Child (OLPC) organization, which incorporate features like solar charging and semi-flexible components not found on most laptop computers. Portable computers, which later developed into modern laptops, were originally considered to be a small niche market, mostly for specialized field applications, such as in the military, for accountants, or traveling sales representatives. As portable computers evolved into modern laptops, they became widely used for a variety of purposes.[6]",
+      "alignment": "Sim",
+      "id": "c4455d4e-b91e-4603-8dcf-1cadc7bf0b9a"
     }
   ],
   "descriptions": [
@@ -20,6 +44,14 @@
     {
       "name": "Computer",
       "id": "37729335-acfe-446c-901e-03b58f2d7b12"
+    },
+    {
+      "name": "Laptop",
+      "id": "9b0530b4-cc8d-40d0-b773-724f158211d3"
+    },
+    {
+      "name": "Sim",
+      "id": "7a1bcfc1-9189-492c-9864-26ebed5aec7f"
     }
   ]
 }

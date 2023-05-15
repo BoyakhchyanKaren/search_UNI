@@ -78,9 +78,9 @@ const SearchSection = () => {
 
     const handleKeyDown = () => {
         const currentArticle = articles.find((element) => element.title.toLowerCase() === value.toLowerCase());
-        const manyArticles = articles.filter((element) => element.title.toLowerCase() === value.toLowerCase());
+        const allArticles = articles.filter((element) => element.title.toLowerCase() === value.toLowerCase());
         setCurrentArticle(currentArticle);
-        setShowArticles(manyArticles);
+        setShowArticles(allArticles);
     }
 
     return (
